@@ -1,0 +1,24 @@
+Import('env')
+import methods
+
+sources = [
+    "register_types.cpp",
+    "audio_engine.cpp",
+    "jikope_audio.cpp",
+    "sound_font.cpp",
+]
+
+module_env = env.Clone()
+module_env.Append(CPPDEFINES=["JIKOPE_AUDIO"])
+
+if ARGUMENTS.get('jikope_audio_shared', 'no') == 'yes':
+    # Shared lib compilation
+    module_env.Append(CCFLAGS=['-fPIC'])
+    module_env['LIBS'] = []
+    shared_lib = module_env.SharedLibrary(target='#bin/jikope_audio', source=sources)
+    shared_lib_shim = shared_lib[0].name.rsplit('.', 1)[0]
+    env.Append(LIBS=[shared_lib_shim])
+    env.Append(LIBPATH=['#bin'])
+else:
+    # Static compilation
+    module_env.add_source_files(env.modules_sources, sources)
