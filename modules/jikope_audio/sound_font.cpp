@@ -36,7 +36,7 @@ Error SoundFont::load(const String fileName) {
 		data.resize(size);
 	}
 
-	ERR_FAIL_COND_V_MSG(theReadSize == 0, FAILED, "Could't read file.");
+	ERR_FAIL_COND_V_MSG(theReadSize == 0, FAILED, "Could't read soundfont file.");
 
 	set_data(data);
 	memdelete(file);

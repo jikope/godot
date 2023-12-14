@@ -16,6 +16,7 @@ public:
 	// Init and Setup
 	int initialize();
 	int add_instrument(String sf_path, String name);
+	bool has_instrument(String name);
 
 	// Operating
 	void midi_note_on(StringName instrument, int key, float velocity);

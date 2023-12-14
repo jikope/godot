@@ -35,6 +35,7 @@ public:
 	AudioEngine();
 	~AudioEngine();
 
+	bool _initialized = false;
 private:
 	std::chrono::high_resolution_clock m_clock;
 	timepoint_t m_start_time;

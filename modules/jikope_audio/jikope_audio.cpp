@@ -11,7 +11,9 @@ JikopeAudio* JikopeAudio::singleton;
 void JikopeAudio::_bind_methods() {
     ClassDB::bind_method(D_METHOD("hello"), &JikopeAudio::hello);
     ClassDB::bind_method(D_METHOD("initialize"), &JikopeAudio::initialize);
+    ClassDB::bind_method(D_METHOD("has_instrument", "name"), &JikopeAudio::has_instrument);
     ClassDB::bind_method(D_METHOD("add_instrument", "soundfont", "name"), &JikopeAudio::add_instrument);
+
     ClassDB::bind_method(D_METHOD("note_on", "name", "key", "velocity"), &JikopeAudio::midi_note_on);
     ClassDB::bind_method(D_METHOD("note_off", "name", "key"), &JikopeAudio::midi_note_off);
     ClassDB::bind_method(D_METHOD("note_off_all", "name"), &JikopeAudio::midi_note_off_all);
@@ -25,7 +27,11 @@ int JikopeAudio::initialize() {
 }
 
 void JikopeAudio::start_clock() {
-	m_engine->start_clock();
+	if (m_engine->_initialized) {
+		m_engine->start_clock();
+	} else {
+		printf("engine not initalized\n");
+	}
 }
 
 
@@ -46,6 +52,13 @@ int JikopeAudio::add_instrument(String sf_path, String name) {
 
 	print_line("Added instrument " + name);
     return 0;
+}
+
+bool JikopeAudio::has_instrument(String name) {
+	if (m_instruments.count(name)) {
+		return true;
+	}
+	return false;
 }
 
 

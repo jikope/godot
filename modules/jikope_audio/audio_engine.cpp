@@ -59,8 +59,8 @@ ma_result AudioEngine::initialize() {
     if (ma_device_start(&m_device) != MA_SUCCESS) {
 		return MA_FAILED_TO_START_BACKEND_DEVICE;
     }
-	printf("device addr %p\n", deviceConfig.pUserData);
 
+	_initialized = true;
 	return MA_SUCCESS;
 }
 
