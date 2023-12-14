@@ -1,0 +1,15 @@
+Import('env')
+import methods
+
+sources = [
+    "register_types.cpp",
+    "player.cpp",
+    "gendhing_editor.cpp",
+    "gendhing_roll_editor.cpp",
+]
+
+module_env = env.Clone()
+module_env.Append(CPPDEFINES=["GENDHING_EDITOR"])
+
+# Static compilation
+module_env.add_source_files(env.modules_sources, sources)
