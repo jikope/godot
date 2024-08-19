@@ -28,7 +28,7 @@ public:
 	~JikopeAudio();
 	String hello() { return String("Hello Jikope audio"); } /* Just for sanity check */
 private:
-	/* std::map<StringName, tsf*> m_instruments; */
+	std::map<StringName, tsf*> _instruments;
 	// std::map<StringName, int> _loaded_song;
 
 	static JikopeAudio* singleton;

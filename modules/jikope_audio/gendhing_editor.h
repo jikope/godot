@@ -17,6 +17,9 @@
 typedef std::map<uint32_t, char> BonangNote_t;
 enum Laras { Slendro, Pelog };
 enum SelectedLane { None, Left, Right };
+enum ModalMode { NORMAL, RECORDING, EDITING };
+
+static const char* MODAL_TEXT[] = { "NORMAL", "RECORDING", "EDITING"};
 
 class GendhingEditor : public Control
 {
@@ -25,6 +28,8 @@ public:
     GendhingEditor();
     ~GendhingEditor();
 
+	void switch_laras();
+	Laras get_laras();
 	void set_song_picker(const NodePath& fd);
 	NodePath get_song_picker();
 
@@ -32,12 +37,13 @@ public:
 	void set_audio_file_path(const String& path);
 	String get_audio_file_path();
 
+	Error save_gendhing();
+
 	void update();
 
 protected:
 	static void _bind_methods();
 	void _notification(int p_what);
-	// void _gui_input(const Ref<InputEvent> &p_event);
 	void input(const Ref<InputEvent> &p_event) override;
 
 	void _draw_preview_panel();
@@ -54,7 +60,14 @@ protected:
 	void preview_input(const Ref<InputEvent> &p_event);
 	void editor_input(const Ref<InputEvent> &p_event);
 
+	void switch_modal_mode();
+
 private:
+	void _move_note(int direction);
+	void _remove_note();
+	void _select_next_note();
+	void _select_prev_note();
+	void _move_note_lane();
 	void _insert_note_at_timeline(int time, char note);
 	void _copy_notes(uint64_t time_ms);
 
@@ -64,13 +77,25 @@ private:
 	Ref<SoundSource> _audio_file;
 	String _audio_file_path;
 	short _duration = 0;
-	Laras _laras = Laras::Pelog;
+	Laras _laras = Laras::Slendro;
+	ModalMode _mode = ModalMode::NORMAL;
 
 	// How do we store bonang notes ??
 	// Since bonang can hit 2 notes at the same time.
 	// We need to store these 2 possible note. Also we
 	// need think how to display this as replayable note
 	// in the gameplay.
+
+	// In RECORDING MODE, mipil produces L and R notes at same lane
+	// cause of the time difference.
+	// Ex:
+	//  L:  -  1  -  1
+	//  R:  2  -  2  -
+	// Becomes
+	//  L:  2  1  2  1
+	//  R:
+	// To solve this we need to postprocess the result of recording
+	// by editing the notes in EDITING MODE.
 	BonangNote_t _left_notes;
 	BonangNote_t _right_notes;
 
@@ -96,7 +121,7 @@ private:
 	int _scroll_offset = 0; // Pixel
 	int _page_width = 0; // Pixel
 	int _interval_second = 200; // Pixel
-	int _note_resolution = 50; // Ms
+	int _note_resolution = 100; // Ms
 
 	ColorRect* _preview_panel;
 

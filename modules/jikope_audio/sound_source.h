@@ -18,7 +18,7 @@ public:
 	Error seek(uint64_t milliseconds);
 
 	short get_duration();
-	uint64_t get_current_time();
+	uint64_t get_current_time(); // return ms
 
 	bool is_playing();
 	bool is_loaded();

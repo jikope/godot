@@ -6,7 +6,9 @@ sources = [
     "jikope_audio.cpp",
     "audio_engine.cpp",
     "sound_source.cpp",
+    "sound_font.cpp",
     "gendhing_editor.cpp",
+    "gendhing.cpp",
     #"waveform_preview.cpp",
     #"libs/stb_vorbis.c",
     "libs/miniaudio_split/miniaudio.c"

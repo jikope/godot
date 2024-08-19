@@ -28,6 +28,7 @@ Error SoundSource::load_file(const String &path, const String &name) {
 
 	ERR_FAIL_COND_V_MSG(result != MA_SUCCESS, FAILED, "Failed to instantiate SoundSource." + String::num_int64(result));
 	_is_loaded = true;
+	ma_sound_set_volume(&_sound, 1.0);
 
 	return OK;
 }
@@ -129,8 +130,11 @@ short SoundSource::get_duration() {
 
 void SoundSource::_bind_methods() {
 	// ClassDB::bind_method(D_METHOD("SoundSource", "path", "name"), &SoundSource::SoundSource);
-	ClassDB::bind_method(D_METHOD("instantiate", "path", "name"), &SoundSource::load_file);
+
+	ClassDB::bind_method(D_METHOD("load_file", "path", "name"), &SoundSource::load_file);
 	ClassDB::bind_method(D_METHOD("play"), &SoundSource::play);
+	ClassDB::bind_method(D_METHOD("pause"), &SoundSource::pause);
+	ClassDB::bind_method(D_METHOD("stop"), &SoundSource::stop);
 	ClassDB::bind_method(D_METHOD("seek", "ms"), &SoundSource::seek);
 	ClassDB::bind_method(D_METHOD("is_playing"), &SoundSource::is_playing);
 	ClassDB::bind_method(D_METHOD("get_duration"), &SoundSource::get_duration);

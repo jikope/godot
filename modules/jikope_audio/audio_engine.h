@@ -22,12 +22,10 @@
 			}\
 		})
 
-// typedef struct {
-//     /* tsf* sf[INSTRUMENT_COUNT]; */
-
-// 	int instrument_count;
-// 	tsf* instrument_sf[];
-// } DataCallback;
+typedef struct {
+	int instrument_count;
+	tsf* instrument_sf[];
+} InstrumentSoundFonts;
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> timepoint_t;
 
@@ -54,9 +52,9 @@ private:
 	ma_device _device;
 	ma_device_config deviceConfig;
 	ma_resource_manager _resources_manager;
-	// DataCallback m_data_cb;
 
 	ma_sound _sound[MAX_SOUNDS];
+	InstrumentSoundFonts _m_instrument_soundfonts;
 
 	static void ma_data_callback(ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount);
 };
